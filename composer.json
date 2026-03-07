@@ -1,0 +1,17 @@
+{
+    "name": "josea/residencia",
+    "autoload": {
+        "psr-4": {
+            "Josea\\Residencia\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jose Adrian",
+            "email": "joseadria_v12@hotmail.com"
+        }
+    ],
+    "require": {
+        "thenetworg/oauth2-azure": "^2.2"
+    }
+}

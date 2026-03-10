@@ -1,0 +1,5 @@
+# Configuración de Azure AD
+AZURE_CLIENT_ID=f3ca4e69-cc8c-44df-86a4-a6696162ba48
+AZURE_CLIENT_SECRET=0dfa0919-5bc6-4af3-a354-a5bb92f1421f
+AZURE_TENANT_ID=683edbd2-7fc4-4914-a86f-6054c708c23a
+AZURE_CALLBACK_URL=http://localhost/Residencia/callback.php

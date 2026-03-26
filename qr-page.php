@@ -13,7 +13,11 @@ if (!isset($_SESSION['user_data'])) {
 
 $user = $_SESSION['user_data'];
 
-$qrData = $user['upn'];
+ $correo = $user['upn'];
+
+if (preg_match('/E\d+/', $correo, $matches)) {
+    $qrData = $matches[0];
+}
 
 // Crear QR
 $qrCode = new QrCode($qrData);

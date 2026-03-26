@@ -30,5 +30,7 @@ if (!isset($_SESSION['user_data'])) {
     <a href="logout.php" class="btn-logout">Cerrar Sesión (Logout)</a>
 
     <a href = "qr-page.php" class= "btn-logout"> Generar QR</a>
+
+    <a href ="inscribirse_actividad.php"> Incribirse a actividad</a>
 </body>
 </html>

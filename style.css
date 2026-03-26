@@ -1,0 +1,37 @@
+*{
+  box-sizing: border-box;
+  font-family: helvetica;
+}
+
+.general{
+ width: 1200px;
+ margin: auto;
+ text-align: center;
+}
+
+.texto_nom_evento{
+color:rgb(8, 8, 240);
+font-weight: bold;
+ font-size: 30px;
+}
+
+.linea{
+  border: 1px black solid ;
+
+}
+.lado_izquierdo{
+ padding: 10px;
+ width: 70%;
+ text-align: left;
+}
+
+.mismalinea{
+  display: inline-block;
+  vertical-align: top;
+}
+
+.lado_derecho{
+ padding: 30px;
+ width: 29%;
+ text-align: right;
+}

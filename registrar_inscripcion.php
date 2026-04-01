@@ -22,7 +22,7 @@ if ($ejecutado) {
     echo '
     <script>
         alert("Error al registrar asistencia");
-        window.location.href = "inscribirse_acvtividad.php";
+        window.location.href = "inscribirse_actividad.php";
     </script>
     ';
 }

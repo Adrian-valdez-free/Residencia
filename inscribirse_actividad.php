@@ -26,9 +26,6 @@ if ($row = $result->fetch_assoc()) {
 }
 
 $stmt->close();
-
-
-
 ?>
 
 
@@ -41,7 +38,9 @@ $stmt->close();
   <link rel ="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Seccion para que el estudiante se inscriba a una actividad</h1>  
+  <?php
+    include "encabezado.php";
+  ?>
 
 <div class = "general">
  <h2 >Eventos disponbles</h2>
@@ -54,8 +53,8 @@ $stmt->close();
     while($fila = $eventos->fetch_assoc()){   //Mostrar datos mientras existan filas por mostrar.
   ?>
 
-  <div>
-       <div class = "mismalinea lado_izquierdo">
+  <div class = 'contenedor_eventos'>
+       <div class = "mismalinea lado_izquierdo diseño_info_evento">
         <span class="texto_nom_evento"> <?php echo $fila['nombre_evento']; ?> </span> <br><br>
         <span>Conferencista: </span> <?php echo $fila['nombre_ponente']; ?> <br>
         <span>Horario: </span> <?php echo $fila['horario']; ?> <br>
@@ -71,12 +70,14 @@ $stmt->close();
                 <span>Inscrito</span>
                 <?php } else{ ?>
 
-                 <a href="" class="btn-logout" href='#' onclick="validar('registrar_inscripcion.php?id_user=<?php echo $id_usuario; ?>&id_evento=<?php echo $fila['id_eventos']; ?>')">Inscribirse</a>
+                 <a href="" class="boton_eventos" href='#' onclick="validar('registrar_inscripcion.php?id_user=<?php echo $id_usuario; ?>&id_evento=<?php echo $fila['id_eventos']; ?>')">Inscribirse</a>
                             <?php } ?>
 
        </div>
+       <div class='linea'></div>
+       <br>
   </div>
-  <div class='linea'></div>
+  
 <?php
     }
  }else{

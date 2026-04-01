@@ -3,16 +3,87 @@
   font-family: helvetica;
 }
 
+
 .general{
- width: 1200px;
  margin: auto;
  text-align: center;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+
+}
+
+.fila{
+  display: inline-block;
+  vertical-align: top;
+}
+.menu{
+  background-color: rgb(7, 7, 109);
+  width: 30%;
+  min-height: 100vh;
+}
+.boton_menu{
+  color: white;
+  display: block;
+  text-decoration: none;
+  margin-top: 10px;
+  padding: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.boton_menu:hover{
+  color: rgb(7, 7, 109);
+  display: block;
+  background-color: white;
+  text-decoration: none;
+  margin-top: 10px;
+  padding: 5px;
+  font-weight: bold;
+  border-top: 2px white solid;
+  border-bottom: 2px white solid;
+  text-align: center;
+}
+
+
+  .div_leer_qr{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+  }
+
+
+.perfil{
+  width: 69%;
+  text-align: center;
+}
+
+
+.contenedor_eventos{
+  display: flex;
+  flex-direction: column;
+}
+.encabezado{
+  display: flex;
+  background-color: rgb(4, 4, 165);
+  align-items: center;
+  padding: 20px 10px;
+  color: antiquewhite;
 }
 
 .texto_nom_evento{
 color:rgb(8, 8, 240);
 font-weight: bold;
  font-size: 30px;
+}
+
+.diseño_info_evento{
+
+  background-color: rgb(226, 220, 220);
+  border-radius: 10px;
+  padding: 5px 5px;
 }
 
 .linea{
@@ -34,4 +105,16 @@ font-weight: bold;
  padding: 30px;
  width: 29%;
  text-align: right;
+}
+
+
+.boton_eventos{
+  color: aliceblue;
+  font-weight: bold;
+  font-size: 17px;
+  background-color: rgb(4, 4, 165);
+  padding: 10px 5px;
+  border-radius: 5px;
+  text-decoration: none;
+
 }

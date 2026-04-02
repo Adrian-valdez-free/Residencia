@@ -13,94 +13,95 @@ class ComposerStaticInit019e7b46a11a7bbed4a0c61d404e659d
     );
 
     public static $prefixLengthsPsr4 = array (
-        'T' =>
+        'T' => 
         array (
             'TheNetworg\\OAuth2\\Client\\' => 25,
         ),
-        'P' =>
+        'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
         ),
-        'L' =>
+        'L' => 
         array (
             'League\\OAuth2\\Client\\' => 21,
         ),
-        'J' =>
+        'J' => 
         array (
             'Josea\\Residencia\\' => 17,
         ),
-        'G' =>
+        'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
         ),
-        'F' =>
+        'F' => 
         array (
             'Firebase\\JWT\\' => 13,
         ),
-        'E' =>
+        'E' => 
         array (
             'Endroid\\QrCode\\' => 15,
         ),
-        'D' =>
+        'D' => 
         array (
             'DASPRiD\\Enum\\' => 13,
         ),
-        'B' =>
+        'B' => 
         array (
             'BaconQrCode\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'TheNetworg\\OAuth2\\Client\\' =>
+        'TheNetworg\\OAuth2\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/thenetworg/oauth2-azure/src',
         ),
-        'Psr\\Http\\Message\\' =>
+        'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Http\\Client\\' =>
+        'Psr\\Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'League\\OAuth2\\Client\\' =>
+        'League\\OAuth2\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/oauth2-client/src',
         ),
-        'Josea\\Residencia\\' =>
+        'Josea\\Residencia\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'GuzzleHttp\\Psr7\\' =>
+        'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'GuzzleHttp\\Promise\\' =>
+        'GuzzleHttp\\Promise\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
-        'GuzzleHttp\\' =>
+        'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
-        'Firebase\\JWT\\' =>
+        'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
-        'Endroid\\QrCode\\' =>
+        'Endroid\\QrCode\\' => 
         array (
-            0 => __DIR__ . '/..' . '/endroid/qr-code/src',
+            0 => __DIR__ . '/..' . '/endroid/qrcode/src',
+            1 => __DIR__ . '/..' . '/endroid/qr-code/src',
         ),
-        'DASPRiD\\Enum\\' =>
+        'DASPRiD\\Enum\\' => 
         array (
             0 => __DIR__ . '/..' . '/dasprid/enum/src',
         ),
-        'BaconQrCode\\' =>
+        'BaconQrCode\\' => 
         array (
             0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
         ),

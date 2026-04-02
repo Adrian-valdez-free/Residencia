@@ -69,9 +69,12 @@ try {
         ':mat' => $matricula,
         ':rol' => $rol
     ]);;
-
-    header("Location: perfil.php"); // Lo mandamos al nuevo archivo
+    if($rol != 1){
+    header("Location: dashboard.php"); // Lo mandamos al nuevo archivo
     exit;
+    }else{
+         header("Location: dashboard-admin.php"); // Lo mandamos al nuevo archivo
+    }
     
 } catch (Exception $e) {
     exit('Error: ' . $e->getMessage());

@@ -13,7 +13,11 @@ if (!isset($_SESSION['user_data'])) {
 
 $user = $_SESSION['user_data'];
 
-$qrData = $user['upn'];
+ $correo = $user['upn'];
+
+if (preg_match('/E\d+/', $correo, $matches)) {
+    $qrData = $matches[0];
+}
 
 // Crear QR
 $qrCode = new QrCode($qrData);
@@ -33,14 +37,21 @@ $result->saveToFile($qrPath);
 <head>
 <meta charset="UTF-8">
 <title>QR del estudiante</title>
+<link  rel = 'stylesheet' href = 'style.css' >
 </head>
 <body>
 
-<h1>QR del estudiante</h1>
-<p><?php echo $user['name']; ?></p>
+<?php
+include 'encabezado.php';
+?>
+
+<div class= 'general'>
+<br><br>
 
 <img src="<?php echo $qrPath; ?>" alt="QR Code">
 <p><?php echo $qrData; ?></p>
+<p><?php echo $user['name']; ?></p>
 
+</div>
 </body>
 </html>

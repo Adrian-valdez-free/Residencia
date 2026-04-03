@@ -311,10 +311,3 @@ form .button {
 .btn-delete { 
   background-color: #e74c3c; 
 }
-.Container_profile{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  
-}

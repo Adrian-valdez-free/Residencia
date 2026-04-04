@@ -38,17 +38,39 @@ try {
     $ND = explode('@', $email)[0];
     $numeromat = substr($ND, 2);
 
-    if(ctype_digit(substr($numeromat, 0, 1)))
-    {
+    $stmt = $conectar->prepare("SELECT * FROM users WHERE correo = :co");
+    $stmt->execute([':co' => $email]);
+    $user_data = $stmt->fetch();
+
+    if($user_data){
+        if($user_data['rol'] != "1"){
+        $_SESSION['user_mail'] = $data['upn'];
+        $_SESSION['user_name'] = $data['name'];
+        $_SESSION['user_id'] = $user_data['matricula'];
+        header("Location: dashboard.php");
+        session_start();
+        exit;
+        }else{
+        $_SESSION['user_data'] = $data;
+        $_SESSION['user_mail'] = $data['upn'];
+        $_SESSION['user_name'] = $data['name'];
+        header("Location: dashboard-admin.php"); 
+        session_start();
+        exit;// Lo mandamos al nuevo archiv
+        }
+    }
+
+        if(ctype_digit(substr($numeromat, 0, 1)))
+        {
         //Hay un numero dentro del correo en la tercera posición, entonces es alumno
         $matricula_con_dominio = substr($email, 1);
         $partes = explode('@', $matricula_con_dominio);
         $matricula = $partes[0];
         $rol = 2;
-        $_SESSION['user_data'] = $data;
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
         $_SESSION['user_id'] = $matricula;
+        session_start();
     }else{
         //el correo no tiene un numero en la tercera posición, 
         $rol = 1;
@@ -56,6 +78,7 @@ try {
         $_SESSION['user_data'] = $data;
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
+        session_start();
     }
 
     $sql = "INSERT INTO users (name, correo, matricula, rol) 
@@ -68,12 +91,14 @@ try {
         ':em'  => $email,
         ':mat' => $matricula,
         ':rol' => $rol
-    ]);;
+    ]);
     if($rol != 1){
-    header("Location: dashboard.php"); // Lo mandamos al nuevo archivo
+    header("Location: dashboard.php");
+    session_start(); // Lo mandamos al nuevo archivo
     exit;
     }else{
-         header("Location: dashboard-admin.php"); // Lo mandamos al nuevo archivo
+         header("Location: dashboard-admin.php"); 
+         session_start();// Lo mandamos al nuevo archivo
     }
     
 } catch (Exception $e) {

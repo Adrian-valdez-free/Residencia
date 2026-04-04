@@ -35,6 +35,8 @@
     <a class="boton_menu" href = "qr-page.php" > Generar QR</a>
 
     <a class="boton_menu" href ="inscribirse_actividad.php"> Incribirse a actividad</a>
+    <?php 
+    ?>
 
     </div>
 

@@ -13,8 +13,8 @@
     ],
     "require": {
         "thenetworg/oauth2-azure": "^2.2",
-        "endroid/qr-code": "4.8",
-        "endroid/qrcode": "^5.0",
-        "bacon/bacon-qr-code": "^2.0"
+        "bacon/bacon-qr-code": "2.0.8",
+        "dasprid/enum": "1.0.3",
+        "endroid/qr-code": "4.8"
     }
 }

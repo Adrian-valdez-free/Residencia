@@ -16,7 +16,7 @@ try {
 
     // Si no existe ese evento
     if (!$evento) {
-        header("Location: dashboard-admin.php");
+        header("Location: Events.php");
         exit();
     }
 

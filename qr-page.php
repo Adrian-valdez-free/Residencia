@@ -1,31 +1,25 @@
 <?php
-session_start();
 require "conn.php";
 require "vendor/autoload.php";
+require "Authenticate.php";
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
-if (!isset($_SESSION['user_data'])) {
-    header("Location: Index.php");
-    exit;
-}
 
-$user = $_SESSION['user_data'];
 
-$qrData = $user['upn'];
+
+
+$qrData = $_SESSION['user_id'];
 
 // Crear QR
-$qrCode = new QrCode($qrData);
-$qrCode->setSize(300);
-$qrCode->setMargin(10);
+$qrCode = QrCode::create($qrData)
+    ->setSize(300)
+    ->setMargin(10);
 
 $writer = new PngWriter();
 $result = $writer->write($qrCode);
-
-// Guardar QR
-$qrPath = "qr_estudiante.png";
-$result->saveToFile($qrPath);
+$qrUri = $result->getDataUri();
 ?>
 
 <!DOCTYPE html>
@@ -33,14 +27,21 @@ $result->saveToFile($qrPath);
 <head>
 <meta charset="UTF-8">
 <title>QR del estudiante</title>
+<link  rel = 'stylesheet' href = 'style.css' >
 </head>
 <body>
 
-<h1>QR del estudiante</h1>
-<p><?php echo $user['name']; ?></p>
+<?php
+include 'encabezado.php';
+?>
 
-<img src="<?php echo $qrPath; ?>" alt="QR Code">
+<div class= 'general'>
+<br><br>
+
+<img src="<?php echo $qrUri; ?>" alt="QR Code">
 <p><?php echo $qrData; ?></p>
+<p><?php echo $_SESSION['user_name']; ?></p>
 
+</div>
 </body>
 </html>

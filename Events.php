@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,13 +7,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
   <title>Dashboard admin</title>
   <?php 
 require "conn.php";
 
 try {
     // Consulta para obtener todos los eventos
-    $query = $conectar->query("SELECT * FROM eventos ORDER BY hora_inicio DESC");
+    $query = $conectar->query("SELECT * FROM eventos INNER JOIN recinto r ON recintos_id = id_recinto ORDER BY hora_inicio DESC");
     $eventos = $query->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log($e->getMessage());
@@ -35,7 +47,7 @@ include "sidebar.php";
         <a class="BTN_add" href="Create_event.php"><i class="fa-solid fa-plus"></i></a>
     </div>
 
-    <table class="tabla-eventos">
+    <table class="tabla-eventos" id="tablaEventos">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -55,10 +67,10 @@ include "sidebar.php";
             <?php else: ?>
                 <?php foreach($eventos as $evento): ?>
                 <tr>
-                    <td><?php echo $evento['nombre']; ?></td>
-                    <td><?php echo $evento['recinto']; ?></td>
+                    <td><?php echo $evento['nombre_evento']; ?></td>
+                    <td><?php echo $evento['nombre_recinto']; ?></td>
                     <td><?php echo $evento['ponente']; ?></td>
-                    <td><?php echo $evento['capacidad']; ?></td>
+                    <td><?php echo $evento['capacidad_e']; ?></td>
                     <td><?php echo date("d/m H:i", strtotime($evento['hora_inicio'])); ?></td>
                     <td><?php echo date("d/m H:i", strtotime($evento['hora_finalizar'])); ?></td>
                     <td class="acciones">
@@ -142,4 +154,37 @@ include "sidebar.php";
     })
 }
 </script>
+<script>
+$(document).ready(function() {
+    $('#tablaEventos').DataTable({
+        // 'B' activa los botones, 'f' el buscador, 'r' el procesamiento, 
+        // 't' la tabla, 'i' la info y 'p' la paginación.
+        "dom": '<"top-table"Bf>rtip', 
+        "buttons": [
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fa-solid fa-file-pdf"></i> Generar Reporte',
+                className: 'btn-exportar-pdf', // Clase para tu CSS
+                title: 'Listado de Eventos - Sistema de Control ITM',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5] // EXCLUIMOS la columna 6 (Acciones/Botones)
+                },
+                customize: function (doc) {
+                    // Esto centra la tabla en el PDF generado
+                    doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                }
+            }
+        ],
+        "lengthChange": false,
+        "pageLength": 5,
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+        },
+        "columnDefs": [
+            { "orderable": false, "targets": 6 }
+        ]
+    });
+});
+
+</script>   
 </html>

@@ -27,7 +27,7 @@ if(empty($nombre_evento) || empty($recinto) || empty($ponente) || !($capacidad) 
 }
 try{
 
-$stmt = $conectar->prepare('INSERT INTO eventos (nombre, recinto, ponente, descripcion, hora_inicio, hora_finalizar, capacidad) VALUES (:nombre, :recinto, :ponente, :descripcion, :hora_inicio, :fecha_hora_F, :capacidad)');
+$stmt = $conectar->prepare('INSERT INTO eventos (nombre_evento, recintos_id, ponente, descripcion, hora_inicio, hora_finalizar, capacidad_e) VALUES (:nombre, :recinto, :ponente, :descripcion, :hora_inicio, :fecha_hora_F, :capacidad)');
 
         $stmt->execute([
             ':nombre'    => $nombre_evento,

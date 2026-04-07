@@ -17,9 +17,23 @@
 include "sidebar.php";
 ?>
 <div class="menu margen">
-  <div class="Container_profile">
-    
-  </div>
+  <div class="admin-container">
+    <div class="admin-card">
+        <div class="admin-avatar">
+            <span>AD</span>
+        </div>
+
+        <div class="admin-info">
+            <h2 class="admin-name">Nombre del Admin</h2>
+            <span class="admin-role">Super Administrador</span>
+            <p class="admin-email">admin@itmerida.edu.mx</p>
+        </div>
+
+        <div class="admin-actions">
+            <button class="btn-edit">Editar Perfil</button>
+        </div>
+    </div>
+</div>
 </div>
 </div>
 </body>

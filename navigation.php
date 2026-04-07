@@ -3,7 +3,7 @@
     <div class="options">
       <a href="dashboard.php">Inicio</a>
       <a href="#">Eventos</a>
-      <a href="#">Inscripciones</a>
+      <a href="inscribirse_actividad.php">Inscripciones</a>
       <a href="#">Horario</a>
     </div>
     <div class="profile">

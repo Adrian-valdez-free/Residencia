@@ -22,19 +22,13 @@
     ?>
    <br>
 
-    <!--
-   <div class="json-container">
-   <pre><?php //echo json_encode($_SESSION['user_data'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE); ?></pre>
-   </div>
-    -->
    <div>
 
    <div class = 'fila menu'>
-    <a class="boton_menu"  href="logout.php">Cerrar Sesión</a>
+    <a class="btn-delete"  href="logout.php">Cerrar Sesión</a>
 
     <a class="boton_menu" href = "qr-page.php" > Generar QR</a>
 
-    <a class="boton_menu" href ="inscribirse_actividad.php"> Incribirse a actividad</a>
     <?php 
     ?>
 

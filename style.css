@@ -311,3 +311,192 @@ form .button {
 .btn-delete { 
   background-color: #e74c3c; 
 }
+/* Contenedor principal para centrar todo */
+.admin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f7f6; /* Color de fondo suave */
+}
+
+/* La Tarjeta */
+.admin-card {
+    display: flex;
+    flex-direction: column; /* Por defecto para móvil */
+    align-items: center;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+    gap: 20px;
+    text-align: center;
+}
+
+/* Avatar circular */
+.admin-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background-color: #1a5276; /* Azul tipo institucional */
+    color: white;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Contenedor de texto */
+.admin-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.admin-name {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.admin-role {
+    background: #e8f4fd;
+    color: #1a5276;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    align-self: center; /* Centra el badge en el eje flex */
+}
+
+.admin-email {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Contenedor del buscador */
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 30px !important; /* Espacio con la tabla */
+    margin-top: 15px !important;    /* Espacio con lo que haya arriba */
+    margin-right: 20px !important;   /* Despega del borde derecho */
+    float: left;                   /* Asegura que esté a la derecha */
+}
+
+/* El input (cuadro de texto) del buscador */
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    padding: 8px 15px !important;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+/* Estado Normal */
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous {
+    background-color: #f0f1f5 !important;
+    color: #002b70 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    opacity: 1 !important; /* Forzamos opacidad total */
+    cursor: pointer !important;
+    margin-right: 10px !important;
+}
+
+/* Estado Hover (Pasar el mouse) */
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover {
+    background-color: #002b70 !important;
+    color: #ffffff !important;
+    border-color: #002b70 !important;
+    background-image: none
+}
+
+/* Estado Deshabilitado (Cuando no puedes ir atrás) */
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous.disabled {
+    opacity: 0.4 !important; /* Aquí sí bajamos opacidad para indicar que no funciona */
+    cursor: not-allowed !important;
+    background-color: #f9f9f9 !important;
+    color: #ccc !important;
+}
+/* Estado Normal */
+.dataTables_wrapper .dataTables_paginate .paginate_button.next {
+    background-color: #f0f1f5 !important;
+    color: #002b70 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    opacity: 1 !important;
+    cursor: pointer !important;
+    margin-left: 10px !important;
+}
+
+/* Estado Hover */
+.dataTables_wrapper .dataTables_paginate .paginate_button.next:hover {
+    background-color: #002b70 !important;
+    color: #ffffff !important;
+    border-color: #002b70 !important;
+    background-image: none
+}
+
+/* Estado Deshabilitado */
+.dataTables_wrapper .dataTables_paginate .paginate_button.next.disabled {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+    background-color: #f9f9f9 !important;
+    color: #ccc !important;
+}
+
+/* Los números que NO son actual, ni anterior, ni siguiente */
+.dataTables_wrapper .dataTables_paginate .paginate_button:not(.previous):not(.next):not(.current) {
+    background: transparent !important;
+    border: none !important;
+    color: #002b70 !important;
+    padding: 8px 12px !important;
+    text-decoration: none !important;
+    font-weight: 500;
+}
+
+/* Hover en los números */
+.dataTables_wrapper .dataTables_paginate .paginate_button:not(.previous):not(.next):not(.current):hover {
+    text-decoration: underline !important;
+    color: #004080 !important;
+    border: none !important;
+    box-shadow: none;
+}
+
+/* El número de la página ACTUAL */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: transparent !important;
+    border: none !important;
+    color: #002b70 !important;
+    font-weight: 800 !important; /* Negrita para resaltar */
+    text-decoration: none !important;
+    cursor: default;
+}
+/* Estilo para el botón de PDF */
+.btn-exportar-pdf {
+    background-color: #002b70 !important; /* Tu azul institucional */
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 20px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 10px;
+    background-image: none
+}
+
+.btn-exportar-pdf:hover {
+    background-color: #002b70 !important;
+}
+
+/* Para alinear el botón y el buscador en la misma línea */
+.top-table {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px;
+}

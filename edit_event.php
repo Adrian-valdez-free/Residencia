@@ -10,7 +10,7 @@ if (!$id) {
     exit();
 }
 try {
-    $stmt = $conectar->prepare("SELECT * FROM eventos WHERE id_evento = :id");
+    $stmt = $conectar->prepare("SELECT * FROM eventos INNER JOIN recinto r ON recintos_id = id_recinto WHERE id_evento = :id");
     $stmt->execute([':id' => $id]);
     $evento = $stmt->fetch();
 
@@ -19,6 +19,8 @@ try {
         header("Location: Events.php");
         exit();
     }
+    $stmtRecintos = $conectar->query("SELECT id_recinto, nombre_recinto FROM recinto ORDER BY nombre_recinto ASC");
+    $todos_los_recintos = $stmtRecintos->fetchAll();
 
 } catch (PDOException $e) {
     error_log($e->getMessage());
@@ -59,20 +61,24 @@ include "sidebar.php";
     <div class="midle">
     <div class="form_group">
     <label for="Name">Nombre del evento</label>
-    <input type="text" name="Name" value = "<?php echo htmlspecialchars($evento['nombre']); ?>">
+    <input type="text" name="Name" value = "<?php echo htmlspecialchars($evento['nombre_evento']); ?>">
     </div>
   
      <div class="form_group">
-    <label for="Name">Elige el recinto</label>
-    <select name="recinto" id ="Recinto-id" value= "">
-      <option value="<?php echo htmlspecialchars($evento['recinto']); ?>"><?php echo htmlspecialchars($evento['recinto']); ?></option>
-      <option value="Auditorio Lic.">Auditorio Lic. Miguel Peon Toledo</option>
-      <option value="H1">H1</option>
-      <option value="H7">H7</option>
-      <option value="H8">H8</option>
-      <option value="H5">H5</option>
-      </select>
-      </div>
+    <label for="recinto">Elige el recinto</label>
+    <select name="recinto" id="Recinto-id">
+        <option value="">-- Seleccione un recinto --</option>
+        <?php foreach ($todos_los_recintos as $opcion): ?>
+            <option value="<?php echo $opcion['id_recinto']; ?>" 
+                <?php 
+                // Si el ID del recinto en el bucle es igual al que ya tiene el evento, ponlo como 'selected'
+                echo ($opcion['id_recinto'] == $evento['recintos_id']) ? 'selected' : ''; 
+                ?>>
+                <?php echo htmlspecialchars($opcion['nombre_recinto']); ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+</div>
     <div class="form_group">
     <label for="Name">Expositor</label>
     <input type="text" name="Expositor" value ="<?php echo htmlspecialchars($evento['ponente']); ?>">
@@ -80,8 +86,8 @@ include "sidebar.php";
     </div>
     <div class="midle">
      <div class="form_group">
-    <label for="Capacidad">Numero de asistentes</label>
-    <input type="number" name="capacidad" id="capacidad" value ="<?php echo htmlspecialchars($evento['capacidad']); ?>">
+    <label for="Capacidad">Numero de asistentes (minimo 10 y maximo 150)</label>
+    <input type="number" name="capacidad" id="capacidad" value ="<?php echo htmlspecialchars($evento['capacidad_e']); ?>">
     </div>
      <div class="form_group">
     <label for="">Fecha y hora de inicio</label>
@@ -102,7 +108,7 @@ include "sidebar.php";
 </div>
     </div>
   </form>
-  <script>
+<script>
 // Guardamos los valores originales al cargar la página
 const valoresOriginales = {
     nombre: document.getElementsByName('Name')[0].value,
@@ -115,55 +121,66 @@ const valoresOriginales = {
 };
 
 function confirmarEdicion(event) {
-      event.preventDefault();
+    event.preventDefault();
 
     const inicioInput = document.getElementById('inicio').value;
     const finalInput = document.getElementById('final').value;
+    const nombreInput = document.getElementsByName('Name')[0].value;
+    const expositorInput = document.getElementsByName('Expositor')[0].value;
+    const capacidadInput = document.getElementById('capacidad').value;
+    const recintoInput = document.getElementById('Recinto-id').value;
+    const descripcionInput = document.getElementsByName('descripcion')[0].value;
 
-    // 1. Validación de fechas (Regla de negocio)
+    // 1. Validación de campos vacíos (Primero que nada)
+    if (!nombreInput.trim() || !recintoInput || !expositorInput.trim() || !capacidadInput || !inicioInput || !finalInput || !descripcionInput.trim()) {
+        Swal.fire("¡Espera!", "Faltan datos obligatorios por llenar", "warning");
+        return false;
+    }
+
+    // 2. Validación de capacidad
+    if (parseInt(capacidadInput) < 10 || parseInt(capacidadInput) > 150) {
+        Swal.fire("Capacidad inválida", "El cupo debe ser entre 10 y 150", "warning");
+        return false;
+    }
+
+    // 3. Validación de fechas
     if (new Date(finalInput) <= new Date(inicioInput)) {
-       Swal.fire({
+        Swal.fire({
             icon: 'warning',
-            title: '¡Fechas invalidas!',
-            text: 'La fecha de inicio debe ser antes que la fecha de finalización',
-            showConfirmButton: false
+            title: '¡Fechas inválidas!',
+            text: 'La fecha de inicio debe ser antes que la de finalización'
         });
         return false;
     }
 
-    // 2. Comprobar si algo cambió (Optimización de costos)
+    // 4. Comprobar si algo cambió
     const valoresActuales = {
-        nombre: document.getElementsByName('Name')[0].value,
-        recinto: document.getElementById('Recinto-id').value,
-        expositor: document.getElementsByName('Expositor')[0].value,
-        capacidad: document.getElementById('capacidad').value,
+        nombre: nombreInput,
+        recinto: recintoInput,
+        expositor: expositorInput,
+        capacidad: capacidadInput,
         inicio: inicioInput,
         final: finalInput,
-        descripcion: document.getElementsByName('descripcion')[0].value
+        descripcion: descripcionInput
     };
 
-    // JSON.stringify es una forma rápida de comparar objetos simples
-    const hayCambios = JSON.stringify(valoresOriginales) !== JSON.stringify(valoresActuales);
-
-    if (!hayCambios) {
-        Swal.fire("Sin cambios", "No se ha modificado ningun campo", "warning");
-        return false; // Detiene el envío y ahorra recursos del servidor
+    if (JSON.stringify(valoresOriginales) === JSON.stringify(valoresActuales)) {
+        Swal.fire("Sin cambios", "No has modificado ningún campo", "info");
+        return false;
     }
 
-    // 3. Confirmación final
+    // 5. Confirmación final
     Swal.fire({
         title: '¿Confirmar modificación?',
-        text: "Se guardaran los cambios en el sistema.",
+        text: "Se actualizarán los datos del evento en el sistema.",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#002b70',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, subir evento',
+        confirmButtonText: 'Sí, guardar cambios',
         cancelButtonText: 'Revisar'
     }).then((result) => {
-        // 4. SI EL USUARIO DIJO QUE SÍ
         if (result.isConfirmed) {
-            // Enviamos el formulario programáticamente
             document.getElementById('miFormulario').submit();
         }
     });

@@ -12,6 +12,7 @@ $capacidad     = filter_input(INPUT_POST, 'capacidad', FILTER_VALIDATE_INT);
 $fecha_hora_I  = sanitize($_POST['Inicio']   ?? '');
 $fecha_hora_F  = sanitize($_POST['Final']    ?? '');
 $descripcion   = sanitize($_POST['descripcion'] ?? '');
+
 if(empty($nombre_evento) || empty($recinto) || empty($ponente) || !($capacidad) || empty($fecha_hora_I) || empty($fecha_hora_F) || empty($descripcion)){
   exit("Faltan datos");
 }
@@ -44,10 +45,10 @@ if ($timestamp_F <= $timestamp_I) {
 
 try {
 $update = $conectar->prepare("UPDATE eventos SET 
-nombre = :nom,
-recinto = :rec,
+nombre_evento = :nom,
+recintos_id = :rec,
 ponente = :pon,
-capacidad = :cap,
+capacidad_e = :cap,
 hora_inicio = :hori,
 hora_finalizar = :horf,
 descripcion = :des

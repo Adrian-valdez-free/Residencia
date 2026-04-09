@@ -27,16 +27,16 @@ try {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <title>Inscribirse a actividad</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <?php include "encabezado.php"; ?>
 
-<div class="general">
-  <h2>Eventos disponibles</h2>
+<div class="container_events ancho margen">
+
   
   <?php    
   try {
@@ -48,12 +48,12 @@ try {
       if (count($eventos) > 0) { 
           foreach ($eventos as $fila) {
   ?>
-            <div class='contenedor_eventos'>
+            <div class='contenedor_eventos margen'>
                 <div class="mismalinea lado_izquierdo diseño_info_evento">
-                    <span class="texto_nom_evento"><?php echo htmlspecialchars($fila['nombre']); ?></span> <br><br>
-                    <span>Conferencista: </span> <?php echo htmlspecialchars($fila['recinto']); ?> <br>
-                    <span>Horario: </span> <?php echo htmlspecialchars($fila['hora_inicio']); ?> a <?php echo htmlspecialchars($fila['hora_finalizar']); ?> <br>
-                    <span>Asistentes: </span> <?php echo $fila['capacidad']; ?>
+                    <h1><?php echo htmlspecialchars($fila['nombre_evento']); ?></h1> <br>
+                    <p>Conferencista: <?php echo htmlspecialchars($fila['ponente']); ?></p>
+                    <p>Horario:  <?php echo date("d/m H:i", strtotime($fila['hora_inicio'])); ?> a <?php echo date("d/m H:i", strtotime($fila['hora_finalizar'])); ?> </p>
+                    <p>Capacidad: <?php echo $fila['capacidad_e']; ?></p>
                 </div>
 
                 <div class='mismalinea lado_derecho'>
@@ -89,10 +89,23 @@ try {
 
 <script>
   function validar(url) {
-    if (confirm("¿Confirmas tu inscripción a esta actividad?")) {
-      window.location.href = url;
-    }
-  }
+    Swal.fire({
+        title: '¿Confirmar inscripción?',
+        text: "Te registrarás en este evento.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#002b70', // El azul de tu diseño
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, inscribirme',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        // Si el usuario hace clic en el botón de confirmación
+        if (result.isConfirmed) {
+            // USAMOS LA URL QUE RECIBE LA FUNCIÓN
+            window.location.href = url;
+        }
+    });
+}
 </script>
 
 </body>

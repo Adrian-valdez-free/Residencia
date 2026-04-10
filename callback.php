@@ -1,8 +1,8 @@
 <?php
 session_start();
 require 'vendor/autoload.php';
-require 'conn.php';
 require 'load_env.php';
+require 'conn.php';
 
 $clientSecret = getenv('AZURE_CLIENT_SECRET');
 $clientId = getenv('AZURE_CLIENT_ID');

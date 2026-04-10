@@ -47,13 +47,20 @@ try {
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
         $_SESSION['user_id'] = $user_data['matricula'];
-        header("Location: dashboard.php");
+        $_SESSION['user_role'] = $user_data['rol'];
+        if($user_data['rol'] == 2){
+            header("Location: dashboard.php");
+            session_start();
+        }else{
+        header("Location: dashboard_thirdrol.php");
         session_start();
+        }
         exit;
         }else{
         $_SESSION['user_data'] = $data;
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
+        $_SESSION['user_role'] = $user_data['rol'];
         header("Location: dashboard-admin.php"); 
         session_start();
         exit;// Lo mandamos al nuevo archiv

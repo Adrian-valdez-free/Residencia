@@ -107,6 +107,42 @@ try {
     });
 }
 </script>
+<?php if (isset($_GET['status'])): ?>
+<script>
+    const status = "<?php echo $_GET['status']; ?>";
+    
+    if (status === "success") {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Logrado!',
+            text: 'Se ha registrado con exito.',
+            timer: 2000,
+            showConfirmButton: false,
+        });
+    } else if (status === "warning") {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: 'No puede registrarse dos veces',
+            confirmButtonColor: '#002b70'
+        });
+    } else if (status === "succes_edit") {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Se ha modificado el evento!',
+            text: 'El evento se modifico con exito',
+            confirmButtonColor: '#002b70'
+        });
+    } else if (status === "error_db") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema con la base de datos.',
+        });
+    }
+     window.history.replaceState({}, document.title, window.location.pathname)
 
+</script>
+<?php endif; ?>
 </body>
 </html>

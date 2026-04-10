@@ -23,12 +23,7 @@ try {
     ]);
 
     if ($ejecutado) {
-        echo '
-        <script>
-            alert("¡Inscripción exitosa! Te esperamos en el evento.");
-            window.location.href = "inscribirse_actividad.php";
-        </script>
-        ';
+        header("Location: inscribirse_actividad.php?status=success");
     }
 
 } catch (PDOException $e) {
@@ -36,10 +31,7 @@ try {
     // El código 23000 es para violación de integridad (ej: registro duplicado)
     if ($e->getCode() == 23000) {
         echo '
-        <script>
-            alert("Ya te encuentras inscrito en este evento.");
-            window.location.href = "inscribirse_actividad.php";
-        </script>
+        header("Location: inscribirse_actividad.php?status=warning");
         ';
     } else {
         error_log("Error en inscripción: " . $e->getMessage());

@@ -3,13 +3,19 @@
   margin: 0;
   padding: 0;
 }
-  body{
+/* 1. ASEGURAR QUE EL BODY NO SE MUEVA */
+body {
   font-family: Roboto;
-  font-size: 16px;
-  line-height: 24px;
-  color: #333;
-  background-color: #001332;
-  }
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+
+  background-image: url(assets/somos1.jpg);
+  background-repeat: no-repeat;      /* Evita que la imagen se duplique */
+    background-position: center top; /* Centra la imagen horizontal y verticalmente */
+    background-attachment: fixed;       /* El fondo no se mueve al hacer scroll */
+    background-size: cover;             /* Escala la imagen para cubrir todo el contenedor */
+}
 .ancho{
 max-width: 1200px;
 margin: auto;
@@ -111,41 +117,65 @@ nav img{
   align-items: center;
 }
 .banner{
+  width: 100%;
+  max-width: 1920px;
   background-color: #ffff;
 }
 .banner img{
   width: 13%;
 }
-.Main{
-  margin-top: 5px;
+.Main {
+  width: 100%;
+  height: 85vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* IMPORTANTE: No permitir que el sidebar salte abajo */
+  max-width: 1920px;
+  margin: 5px auto 0 auto;
+  gap: 10px; /* Espacio entre sidebar y menu */
+  overflow: hidden; /* El contenedor padre no scrollea */
 }
-.sidebar{
-  background-color: white;
+.sidebar {
+  height: 100%;
   width: 15%;
+  background-color: white;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  align-content: stretch;
-  gap: 100px;
+  justify-content: space-between;
+  overflow-y: auto; /* ACTIVA EL SCROLL */
+  overflow-x: hidden;
+  align-items:flex-start;
+}
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: #002b70;
+    border-radius: 10px;
 }
 .sidebar a{
+  font-size: 16px;
   font-weight: bolder;
   border: 1px white solid;
   text-decoration: none;
   color: #002b70;
-  padding: 10px 30px;
+  padding: 10px 20px;
 }
-.menu{
+.sidebar i{
+  font-size: 18px;
+  margin-right: 10px;
+}
+.menu {
+  width: 85%;
+  height: 100%;
+  background-color: #ffff;
   border-radius: 5px;
-  width: 84.5%;
-  background-color:#ffff ;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
+  flex-wrap: nowrap;
+  overflow-y: auto; /* ACTIVA EL SCROLL */
+
 }
 .menu label, h1{
   color: #002b70;
@@ -313,9 +343,12 @@ form .button {
 }
 /* Contenedor principal para centrar todo */
 .admin-container {
+    align-items: flex-start;
+    height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    padding-top: 50px;
+    align-content: center;
     padding: 20px;
     background-color: #f4f7f6; /* Color de fondo suave */
 }
@@ -355,7 +388,19 @@ form .button {
     flex-direction: column;
     gap: 5px;
 }
-
+.admin-info a{
+  padding: 10px 15px;
+  background-color: red;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: 300ms ease-in;
+}
+.admin-info a:hover{
+  background-color: white;
+  border: 1px red solid;
+  color: red;
+}
 .admin-name {
     margin: 0;
     font-size: 1.4rem;
@@ -523,4 +568,27 @@ form .button {
 }
 .contenedor_eventos:hover{
   scale: 1.05;
+}
+.red{
+  color: red;
+}
+figure{
+  display: block;
+  display: flex;
+  flex-wrap: wrap;
+}
+#calendar-container{
+  width: 80%;
+}
+#calendar {
+    width: 80%;          /* Que use casi todo el ancho disponible */
+   /* Pero que no se deforme en monitores gigantes */
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.9); /* Un blanco ligero para que se vea el fondo */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.fc .fc-timegrid-slot {
+    height: 3em !important; /* Aumenta este valor si quieres que las horas sean más altas */
 }

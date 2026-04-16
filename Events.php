@@ -21,6 +21,8 @@
   <title>Dashboard admin</title>
   <?php 
 require "conn.php";
+require "Authenticate.php";
+autorizarRoles(1);
 
 try {
     // Consulta para obtener todos los eventos

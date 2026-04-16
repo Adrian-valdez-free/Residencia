@@ -21,7 +21,7 @@
 include "sidebar.php";
 ?>
 <div class="menu margen">
-  <h1>Bienvenido <?php echo "sad";?></h1>
+  <h1>Bienvenido <?php echo $_SESSION['user_name'];?></h1>
 </div>
 </div>
 </body>

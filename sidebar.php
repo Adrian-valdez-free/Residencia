@@ -1,7 +1,7 @@
 <div class="sidebar margen">
-<a href="#">Inicio</a>
-<a href="Events.php">Eventos</a>
-<a href="Attendance.php">Asistencias</a>
-<a href="profile_admin.php">Perfil</a>
-<a href="logout.php">Cerrar sesion</a>
+<a href="#"><i class="fa-solid fa-gauge"></i>Inicio </a>
+<a href="Events.php"><i class="fa-solid fa-clipboard-list"></i>Eventos </a>
+<a href="Attendance.php"> <i class="fa-solid fa-clipboard-user"></i> Asistencias </a>
+<a href="profile_admin.php"><i class="fa-solid fa-user"></i> Perfil </a>
+<a href="logout.php"><span class ="red"> <i class="fa-solid fa-arrow-right-from-bracket"> </i> Cerrar Sesion </span></a>
 </div>

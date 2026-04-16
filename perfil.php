@@ -1,3 +1,30 @@
+<?php 
+    include "navigation.php";
+    require "vendor/autoload.php";
+    require "Authenticate.php";
+    autorizarRoles(1, 2);
+    require "conn.php";
+
+    use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
+
+
+$qrData = $_SESSION['user_id'];
+
+// Crear QR
+$qrCode = QrCode::create($qrData)
+    ->setSize(300)
+    ->setMargin(10);
+
+$writer = new PngWriter();
+$result = $writer->write($qrCode);
+$qrUri = $result->getDataUri();
+
+$stmt = $conectar->prepare("SELECT u.rol, r.Nombre FROM users u INNER JOIN rol r on u.rol = r.id_rol WHERE correo = :co");
+$stmt->execute([':co' => $_SESSION['user_mail']]);
+$user_data = $stmt->fetch();
+
+    ?>
 <!DOCTYPE html>
 <html lang="es">
     <link rel="stylesheet" href="style.css">
@@ -5,42 +32,29 @@
 
 <head>
     <meta charset="UTF-8">
-    <?php 
-    include "navigation.php";
-    include "Authenticate.php";
-    ?>
+    
     <title>Perfil</title>
-    <link rel = 'stylesheet' href = 'style.css'>
-    <style>
-        body { font-family: sans-serif; background: #f4f4f4;}
-    </style>
 </head>
 <body>
 
-    <?php 
-     include 'encabezado.php';
-    ?>
-   <br>
+    
 
-   <div>
-
-   <div class = 'fila menu'>
-    <a class="btn-delete"  href="logout.php">Cerrar Sesión</a>
-
-    <a class="boton_menu" href = "qr-page.php" > Generar QR</a>
-
-    <?php 
-    ?>
-
+    <div class="admin-container ancho">
+    <div class="admin-card">
+        <div class="admin-avatar">
+            <span>AD</span>
+        </div>
+        <figure>
+        <img src="<?php echo $qrUri; ?>" alt="QR Code">
+        </figure>
+        <div class="admin-info">
+            <h2 class="admin-name"><?php echo $_SESSION['user_name'] ?></h2>
+            <span class="admin-role"><?php echo $user_data['Nombre'] ?></span>
+            <p class="admin-email"><?php echo $_SESSION['user_mail'] ?></p>
+            <a href="logout.php">Cerrar sesion <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+        </div>
     </div>
-
-    <div class=" fila">
-
-     <h2>PERFIL</h2>
-
-    </div>
-
-    </div>
-
+</div>
+</div>
 </body>
 </html>

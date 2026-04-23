@@ -1,9 +1,8 @@
 <?php 
-    include "navigation.php";
     require "Authenticate.php";
-    autorizarRoles(1, 2);
+    autorizarRoles(1, 2, 3);
     require "conn.php";
-
+    include "navigation.php";
     ?>
 <!DOCTYPE html>
 <html lang="es">

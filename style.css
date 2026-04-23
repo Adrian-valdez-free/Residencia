@@ -91,7 +91,7 @@ nav{
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 nav a{
   text-decoration: none;
@@ -107,7 +107,7 @@ nav img{
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 200px;
+  gap: 150px;
 }
 .profile{
   width: 20%;
@@ -343,7 +343,8 @@ form .button {
 }
 /* Contenedor principal para centrar todo */
 .admin-container {
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -591,4 +592,9 @@ figure{
 }
 .fc .fc-timegrid-slot {
     height: 3em !important; /* Aumenta este valor si quieres que las horas sean más altas */
+}
+#reader{
+  width: 800px;
+  height: auto;
+  margin-bottom: 20px;
 }

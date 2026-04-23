@@ -8,7 +8,7 @@
 
   <?php
   include "Authenticate.php";
-  autorizarRoles(1, 2);
+  autorizarRoles(1, 2, 3);
    ?>
 
   <title>Document</title>

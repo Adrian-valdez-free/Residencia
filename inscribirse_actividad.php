@@ -1,10 +1,9 @@
 <?php
 require "conn.php"; // Se asume que $conectar es tu objeto PDO
 require "Authenticate.php";
+autorizarRoles(1, 2, 3);
 
 $matricula = $_SESSION['user_id'];
-include "navigation.php";
-
 try {
     // 2. Obtener ID de usuario con PDO
     $stmt = $conectar->prepare("SELECT id_user FROM users WHERE matricula = :mat");
@@ -34,7 +33,9 @@ try {
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+<?php 
+include "navigation.php";
+?>
 <div class="container_events ancho margen">
 
   

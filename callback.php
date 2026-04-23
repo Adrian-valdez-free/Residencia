@@ -48,14 +48,9 @@ try {
         $_SESSION['user_name'] = $data['name'];
         $_SESSION['user_id'] = $user_data['matricula'];
         $_SESSION['user_role'] = $user_data['rol'];
-        if($user_data['rol'] == 2){
             header("Location: dashboard.php");
             session_start();
-        }else{
-        header("Location: dashboard_thirdrol.php");
-        session_start();
-        }
-        exit;
+
         }else{
         $_SESSION['user_data'] = $data;
         $_SESSION['user_mail'] = $data['upn'];
@@ -77,6 +72,7 @@ try {
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
         $_SESSION['user_id'] = $matricula;
+        $_SESSION['user_role'] = $rol;
         session_start();
     }else{
         //el correo no tiene un numero en la tercera posición, 
@@ -85,6 +81,7 @@ try {
         $_SESSION['user_data'] = $data;
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
+        $_SESSION['user_role'] = $rol;
         session_start();
     }
 

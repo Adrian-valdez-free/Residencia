@@ -13,7 +13,7 @@ if (isset($_SESSION['user_mail'])) {
             header("Location: dashboard.php");
             break;
         case 3:
-            header("Location: organizador_dashboard.php");
+            header("Location: dashboard.php");
             break;
         default:
             // Por si algo raro pasa, lo mandamos a un inicio genérico

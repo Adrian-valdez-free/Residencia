@@ -19,4 +19,30 @@ function autorizarRoles(...$rolesPermitidos) {
         header("Location: denied_acces.php");
         exit();
     }
+    ?>
+    <script>
+        (function() {
+            // 10 minutos de inactividad (600,000 milisegundos)
+            const TIEMPO_LIMITE = 10000; 
+            let timer;
+
+            const reiniciarContador = () => {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                    window.location.href = 'logout.php?status=inactivity';
+                }, TIEMPO_LIMITE);
+            };
+
+            // Eventos que reinician el tiempo
+            window.onmousemove = reiniciarContador;
+            window.onkeypress = reiniciarContador;
+            window.onmousedown = reiniciarContador;
+            window.onclick = reiniciarContador;
+            window.onscroll = reiniciarContador;
+            
+            reiniciarContador(); // Iniciar el conteo al cargar
+        })();
+    </script>
+    <?php 
 }
+?>

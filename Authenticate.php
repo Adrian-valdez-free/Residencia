@@ -23,7 +23,7 @@ function autorizarRoles(...$rolesPermitidos) {
     <script>
         (function() {
             // 10 minutos de inactividad (600,000 milisegundos)
-            const TIEMPO_LIMITE = 10000; 
+            const TIEMPO_LIMITE = 600000; 
             let timer;
 
             const reiniciarContador = () => {

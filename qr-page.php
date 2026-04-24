@@ -7,9 +7,6 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
 
-
-
-
 $qrData = $_SESSION['user_id'];
 
 // Crear QR

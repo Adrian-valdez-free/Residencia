@@ -25,12 +25,12 @@ require "Authenticate.php";
 autorizarRoles(1);
 
 try {
-    // Consulta para obtener todos los eventos
-    $query = $conectar->query("SELECT * FROM eventos INNER JOIN recinto r ON recintos_id = id_recinto ORDER BY hora_inicio DESC");
-    $eventos = $query->fetchAll(PDO::FETCH_ASSOC);
+    // Consulta para obtener todos los usuarios
+    $query = $conectar->query("SELECT * FROM users u INNER JOIN rol r on u.rol = r.id_rol ORDER BY id_user DESC");
+    $users = $query->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    $eventos = [];
+    $users = [];
 }
 ?>
 </head>
@@ -45,35 +45,32 @@ include "sidebar.php";
 ?>
 <div class="menu margen">
 <div class="header-table">
-        <h2>Gestión de Eventos</h2>
-        <a class="BTN_add" href="Create_event.php"><i class="fa-solid fa-plus"></i></a>
+        <h2>Gestión de usuarios</h2>
     </div>
 
     <table class="tabla-eventos" id="tablaEventos">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Recinto</th>
-                <th>Expositor</th>
-                <th>Capacidad</th>
-                <th>Inicio</th>
-                <th>Fin</th>
+                <th>ID</th>
+                <th>Nombre usuario</th>
+                <th>Rol</th>
+                <th>Correo</th>
+                <th>Matricula</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-                <?php foreach($eventos as $evento): ?>
+                <?php foreach($users as $user): ?>
                 <tr>
-                    <td><?php echo $evento['nombre_evento']; ?></td>
-                    <td><?php echo $evento['nombre_recinto']; ?></td>
-                    <td><?php echo $evento['ponente']; ?></td>
-                    <td><?php echo $evento['capacidad_e']; ?></td>
-                    <td><?php echo date("d/m H:i", strtotime($evento['hora_inicio'])); ?></td>
-                    <td><?php echo date("d/m H:i", strtotime($evento['hora_finalizar'])); ?></td>
+                    <td><?php echo $user['id_user']; ?></td>
+                    <td><?php echo $user['name']; ?></td>
+                    <td><?php echo $user['Nombre']; ?></td>
+                    <td><?php echo $user['correo']; ?></td>
+                    <td><?php echo $user['matricula']; ?></td>
                     <td class="acciones">
-                        <a class="btn-edit" href="edit_event.php?id=<?php echo $evento['id_evento']; ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn-edit" href="edit_user.php?id=<?php echo $user['id_user']; ?>"><i class="fa-solid fa-pen-to-square"></i></a>
                         <a class="btn-delete" href="#"
-                        onclick="confirmarBorrado(event, 'delete_event.php?id=<?php echo $evento['id_evento']; ?>')"><i class="fa-solid fa-trash"></i>
+                        onclick="confirmarBorrado(event, 'delete_user.php?id=<?php echo $user['id_user']; ?>')"><i class="fa-solid fa-trash"></i>
                     </a>
                     </td>
                 </tr>
@@ -91,7 +88,7 @@ include "sidebar.php";
         Swal.fire({
             icon: 'success',
             title: '¡Logrado!',
-            text: 'El evento se actualizó correctamente.',
+            text: 'El rol se actualizó correctamente.',
             timer: 2000,
             showConfirmButton: false,
         });
@@ -99,7 +96,7 @@ include "sidebar.php";
         Swal.fire({
             icon: 'success',
             title: 'Eliminado',
-            text: 'El evento ha sido borrado.',
+            text: 'El usuario ha sido borrado.',
             confirmButtonColor: '#002b70'
         });
     } else if (status === "succes_edit") {
@@ -115,16 +112,8 @@ include "sidebar.php";
             title: 'Error',
             text: 'Hubo un problema con la base de datos.',
         });
-    }else if(status === "succes_add"){
-        Swal.fire({
-            icon: 'success',
-            title: '¡Nuevo evento registrado!',
-            text: 'El evento se agrego correctamente.',
-            timer: 10000,
-            showConfirmButton: false
-        });
-
     }
+
      window.history.replaceState({}, document.title, window.location.pathname)
 
 </script>
@@ -161,7 +150,7 @@ $(document).ready(function() {
                 extend: 'pdfHtml5',
                 text: '<i class="fa-solid fa-file-pdf"></i> Generar Reporte',
                 className: 'btn-exportar-pdf', // Clase para tu CSS
-                title: 'Listado de Eventos - Sistema de Control ITM',
+                title: 'Listado de usuarios en el sistema',
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5] // EXCLUIMOS la columna 6 (Acciones/Botones)
                 },
@@ -177,7 +166,7 @@ $(document).ready(function() {
             "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
         },
         "columnDefs": [
-            { "orderable": false, "targets": 6 }
+            { "orderable": false, "targets": 5 }
         ]
     });
 });

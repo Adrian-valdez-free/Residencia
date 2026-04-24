@@ -47,13 +47,15 @@ try {
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
         $_SESSION['user_id'] = $user_data['matricula'];
-        header("Location: dashboard.php");
-        session_start();
-        exit;
+        $_SESSION['user_role'] = $user_data['rol'];
+            header("Location: dashboard.php");
+            session_start();
+
         }else{
         $_SESSION['user_data'] = $data;
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
+        $_SESSION['user_role'] = $user_data['rol'];
         header("Location: dashboard-admin.php"); 
         session_start();
         exit;// Lo mandamos al nuevo archiv
@@ -70,6 +72,7 @@ try {
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
         $_SESSION['user_id'] = $matricula;
+        $_SESSION['user_role'] = $rol;
         session_start();
     }else{
         //el correo no tiene un numero en la tercera posición, 
@@ -78,6 +81,7 @@ try {
         $_SESSION['user_data'] = $data;
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
+        $_SESSION['user_role'] = $rol;
         session_start();
     }
 

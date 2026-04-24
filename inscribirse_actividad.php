@@ -1,10 +1,9 @@
 <?php
 require "conn.php"; // Se asume que $conectar es tu objeto PDO
 require "Authenticate.php";
+autorizarRoles(1, 2, 3);
 
 $matricula = $_SESSION['user_id'];
-
-
 try {
     // 2. Obtener ID de usuario con PDO
     $stmt = $conectar->prepare("SELECT id_user FROM users WHERE matricula = :mat");
@@ -27,14 +26,18 @@ try {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
   <title>Inscribirse a actividad</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <?php include "encabezado.php"; ?>
+<?php 
+include "navigation.php";
+?>
+<div class="container_events ancho margen">
 
-<div class="general">
-  <h2>Eventos disponibles</h2>
   
   <?php    
   try {
@@ -46,12 +49,12 @@ try {
       if (count($eventos) > 0) { 
           foreach ($eventos as $fila) {
   ?>
-            <div class='contenedor_eventos'>
+            <div class='contenedor_eventos margen'>
                 <div class="mismalinea lado_izquierdo diseño_info_evento">
-                    <span class="texto_nom_evento"><?php echo htmlspecialchars($fila['nombre']); ?></span> <br><br>
-                    <span>Conferencista: </span> <?php echo htmlspecialchars($fila['recinto']); ?> <br>
-                    <span>Horario: </span> <?php echo htmlspecialchars($fila['hora_inicio']); ?> a <?php echo htmlspecialchars($fila['hora_finalizar']); ?> <br>
-                    <span>Asistentes: </span> <?php echo $fila['capacidad']; ?>
+                    <h1><?php echo htmlspecialchars($fila['nombre_evento']); ?></h1> <br>
+                    <p>Conferencista: <?php echo htmlspecialchars($fila['ponente']); ?></p>
+                    <p>Horario:  <?php echo date("d/m H:i", strtotime($fila['hora_inicio'])); ?> a <?php echo date("d/m H:i", strtotime($fila['hora_finalizar'])); ?> </p>
+                    <p>Capacidad: <?php echo $fila['capacidad_e']; ?></p>
                 </div>
 
                 <div class='mismalinea lado_derecho'>
@@ -87,11 +90,60 @@ try {
 
 <script>
   function validar(url) {
-    if (confirm("¿Confirmas tu inscripción a esta actividad?")) {
-      window.location.href = url;
-    }
-  }
+    Swal.fire({
+        title: '¿Confirmar inscripción?',
+        text: "Te registrarás en este evento.",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#002b70', // El azul de tu diseño
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, inscribirme',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        // Si el usuario hace clic en el botón de confirmación
+        if (result.isConfirmed) {
+            // USAMOS LA URL QUE RECIBE LA FUNCIÓN
+            window.location.href = url;
+        }
+    });
+}
 </script>
+<?php if (isset($_GET['status'])): ?>
+<script>
+    const status = "<?php echo $_GET['status']; ?>";
+    
+    if (status === "success") {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Logrado!',
+            text: 'Se ha registrado con exito.',
+            timer: 2000,
+            showConfirmButton: false,
+        });
+    } else if (status === "warning") {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: 'No puede registrarse dos veces',
+            confirmButtonColor: '#002b70'
+        });
+    } else if (status === "succes_edit") {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Se ha modificado el evento!',
+            text: 'El evento se modifico con exito',
+            confirmButtonColor: '#002b70'
+        });
+    } else if (status === "error_db") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema con la base de datos.',
+        });
+    }
+     window.history.replaceState({}, document.title, window.location.pathname)
 
+</script>
+<?php endif; ?>
 </body>
 </html>

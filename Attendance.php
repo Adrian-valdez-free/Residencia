@@ -21,16 +21,21 @@
   <title>Dashboard admin</title>
   <?php 
 require "conn.php";
-require "Authenticate.php";
-autorizarRoles(1);
 
 try {
     // Consulta para obtener todos los eventos
-    $query = $conectar->query("SELECT * FROM eventos INNER JOIN recinto r ON recintos_id = id_recinto ORDER BY hora_inicio DESC");
-    $eventos = $query->fetchAll(PDO::FETCH_ASSOC);
+    $query = $conectar->query("SELECT 
+        e.nombre_evento, 
+        s.name, 
+        re.fecha_registro, asistencia
+    FROM tabla_registros_eventos re
+    INNER JOIN eventos e ON re.id_evento = e.id_evento
+    INNER JOIN users s ON re.id_estudiante = s.id_user
+    ORDER BY re.fecha_registro DESC");
+    $attendece = $query->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    $eventos = [];
+    $attendece = [];
 }
 ?>
 </head>
@@ -45,37 +50,26 @@ include "sidebar.php";
 ?>
 <div class="menu margen">
 <div class="header-table">
-        <h2>Gestión de Eventos</h2>
-        <a class="BTN_add" href="Create_event.php"><i class="fa-solid fa-plus"></i></a>
+        <h2>Registro de asistencia</h2>
+
     </div>
 
     <table class="tabla-eventos" id="tablaEventos">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Recinto</th>
-                <th>Expositor</th>
-                <th>Capacidad</th>
-                <th>Inicio</th>
-                <th>Fin</th>
-                <th>Acciones</th>
+                <th>Estudiante</th>
+                <th>Evento asistido</th>
+                <th>Hora de registro</th>
+                <th>Asistencia</th>
             </tr>
         </thead>
         <tbody>
-                <?php foreach($eventos as $evento): ?>
+                <?php foreach($attendece as $attendeces): ?>
                 <tr>
-                    <td><?php echo $evento['nombre_evento']; ?></td>
-                    <td><?php echo $evento['nombre_recinto']; ?></td>
-                    <td><?php echo $evento['ponente']; ?></td>
-                    <td><?php echo $evento['capacidad_e']; ?></td>
-                    <td><?php echo date("d/m H:i", strtotime($evento['hora_inicio'])); ?></td>
-                    <td><?php echo date("d/m H:i", strtotime($evento['hora_finalizar'])); ?></td>
-                    <td class="acciones">
-                        <a class="btn-edit" href="edit_event.php?id=<?php echo $evento['id_evento']; ?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a class="btn-delete" href="#"
-                        onclick="confirmarBorrado(event, 'delete_event.php?id=<?php echo $evento['id_evento']; ?>')"><i class="fa-solid fa-trash"></i>
-                    </a>
-                    </td>
+                    <td><?php echo $attendeces['name']; ?></td>
+                    <td><?php echo $attendeces['nombre_evento']; ?></td>
+                    <td><?php echo date("d/m H:i", strtotime($attendeces['fecha_registro'])); ?></td>
+                    <td><?php echo ($attendeces['asistencia'] == 1) ? 'Confirmada' : 'No asistió'; ?></td>
                 </tr>
                 <?php endforeach; ?>
         </tbody>
@@ -159,12 +153,15 @@ $(document).ready(function() {
         "buttons": [
             {
                 extend: 'pdfHtml5',
-                text: '<i class="fa-solid fa-file-pdf"></i> Generar Reporte',
+                text: '<i class="fa-solid fa-file-pdf"></i> Reportar lo visible',
                 className: 'btn-exportar-pdf', // Clase para tu CSS
-                title: 'Listado de Eventos - Sistema de Control ITM',
+                title: 'Asistencia - Sistema de Control ITM',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5] // EXCLUIMOS la columna 6 (Acciones/Botones)
-                },
+            modifier: {
+                page: 'all',    // Todas las páginas...
+                search: 'applied' // ...pero SOLO las que coincidan con el filtro actual
+            }
+        },
                 customize: function (doc) {
                     // Esto centra la tabla en el PDF generado
                     doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
@@ -177,7 +174,7 @@ $(document).ready(function() {
             "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
         },
         "columnDefs": [
-            { "orderable": false, "targets": 6 }
+            { "orderable": false, "targets": 3 }
         ]
     });
 });

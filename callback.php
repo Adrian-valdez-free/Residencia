@@ -28,10 +28,6 @@ try {
     $resourceOwner = $provider->getResourceOwner($token);
     $data = $resourceOwner->toArray();
 
-
-    $dsn = "mysql:host=$host;dbname=$basedatos;charset=$cotejamiento";
-    $pdo = new PDO($dsn, $usuario, $contrasena);
-
     $nombre = $data['name'];
     $email  = $data['upn'];
 

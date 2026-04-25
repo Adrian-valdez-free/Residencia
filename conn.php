@@ -1,14 +1,15 @@
 <?php
 
-$host = "localhost";
-$usuario = "root";
-$contrasena = "";
-$basedatos = "sistema_control";
+
+$host      = getenv("DB_HOST");
+$usuario   = getenv("DB_USER");
+$contrasena = getenv("DB_PASS");
+$basedatos  = getenv("DB_NAME");
 $cotejamiento = "utf8mb4";
 
 try {
     $conectar = new PDO(
-        "mysql:host=$host;dbname=$basedatos;charset=utf8mb4",
+        "sqlsrv:Server=$host,1433;Database=$basedatos;Encrypt=yes;TrustServerCertificate=no",
         $usuario,
         $contrasena,
         [

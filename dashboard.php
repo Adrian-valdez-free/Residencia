@@ -1,7 +1,7 @@
-  <?php
-  include "Authenticate.php";
-  autorizarRoles(1, 2, 3);
-  ?>
+<?php
+include "Authenticate.php";
+autorizarRoles(1, 2, 3);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

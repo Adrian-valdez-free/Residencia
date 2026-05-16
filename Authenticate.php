@@ -40,4 +40,3 @@ function autorizarRoles(...$rolesPermitidos) {
     </script>
     <?php 
 }
-?>

@@ -1,3 +1,8 @@
+<?php
+include "Authenticate.php";
+autorizarRoles(1, 3);
+include 'navigation.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +15,7 @@
   <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
-    <?php
-    include "Authenticate.php";
-  autorizarRoles(1, 3);
-    include 'navigation.php';
-    ?>
+    
 <div class="admin-container ancho">
 
     <h1>Tomar asistencia</h1>
@@ -46,14 +47,14 @@ function onScanSuccess(decodedText) {
     });
 
     // Detener cámara después de leer
-    html5QrcodeScanner.clear();
+    //html5QrcodeScanner.clear();
 }
 
 function onScanFailure(error) {}
 
 let html5QrcodeScanner = new Html5QrcodeScanner(
     "reader",
-    { fps: 10, qrbox: 250 }
+    { fps: 10, qrbox: 500 }
 );
 
 html5QrcodeScanner.render(onScanSuccess, onScanFailure);

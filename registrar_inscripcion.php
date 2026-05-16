@@ -1,8 +1,6 @@
 <?php
-session_start();
-require "conn.php"; // Se asume que $conectar es tu objeto PDO
+require "conn.php"; 
 
-// 1. Validar que los datos lleguen por la URL
 if (!isset($_GET['id_user']) || !isset($_GET['id_evento'])) {
     header("Location: inscribirse_actividad.php");
     exit;
@@ -10,42 +8,42 @@ if (!isset($_GET['id_user']) || !isset($_GET['id_evento'])) {
 
 $id_user = $_GET['id_user'];
 $id_evento = $_GET['id_evento'];
+$asistencia = 0;
 
 try {
-    // 2. Preparar la inserción con PDO
-    $sql = "INSERT INTO tabla_registros_eventos (id_evento, id_estudiante) VALUES (:id_e, :id_u)";
+    $sql = "INSERT INTO tabla_registros_eventos (id_evento, id_estudiante, asistencia) VALUES (:id_e, :id_u, :asis)";
     $stmt = $conectar->prepare($sql);
     
-    // 3. Ejecutar pasando los parámetros en un array
     $ejecutado = $stmt->execute([
         ':id_e' => $id_evento,
-        ':id_u' => $id_user
+        ':id_u' => $id_user,
+        ':asis' => $asistencia
     ]);
 
     if ($ejecutado) {
         header("Location: inscribirse_actividad.php?status=success");
+        exit; // Siempre pon exit después de un header Location
     }
 
 } catch (PDOException $e) {
-    // 4. Manejo de errores específicos
-    // El código 23000 es para violación de integridad (ej: registro duplicado)
+    // 23000 = Violación de integridad (Ya está inscrito)
     if ($e->getCode() == 23000) {
-        echo '
+        // CORRECCIÓN: Sin el 'echo' y agregamos el exit
         header("Location: inscribirse_actividad.php?status=warning");
-        ';
+        exit;
     } else {
         error_log("Error en inscripción: " . $e->getMessage());
+        // Aquí sí usamos JS porque queremos mostrar un alert antes de mover al usuario
         echo '
         <script>
             alert("Hubo un error técnico al registrar tu asistencia.");
             window.location.href = "inscribirse_actividad.php";
         </script>
         ';
+        exit;
     }
 }
 
-// En PDO no es estrictamente necesario cerrar el statement, 
-// pero puedes liberar la conexión así:
 $stmt = null;
 $conectar = null;
 ?>

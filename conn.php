@@ -1,6 +1,4 @@
 <?php
-
-
 $host      = getenv("DB_HOST");
 $usuario   = getenv("DB_USER");
 $contrasena = getenv("DB_PASS");
@@ -22,3 +20,4 @@ try {
     error_log($e->getMessage());
     die("No se pudo conectar al servidor");
 }
+?>

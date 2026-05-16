@@ -1,12 +1,9 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require "conn.php";
 
-/**
- * Protege el acceso a una página basándose en la sesión y el rol del usuario.
- * * @param int ...$rolesPermitidos Lista de IDs de roles que tienen permiso (ej. 1, 2).
- * @return void Redirige y finaliza la ejecución si no se cumplen los requisitos.
- */
 function autorizarRoles(...$rolesPermitidos) {
     // 1. Verificación de Autenticación
     if (!isset($_SESSION['user_mail'])) {
@@ -14,33 +11,31 @@ function autorizarRoles(...$rolesPermitidos) {
         exit();
     }
 
-    // 2. Verificación de Autorización (Nivel de Acceso)
+    // 2. Verificación de Autorización
     if (!in_array($_SESSION['user_role'], $rolesPermitidos)) {
         header("Location: denied_acces.php");
         exit();
     }
+
+    // Si llegó aquí, el usuario es válido. 
+    // Ahora sí podemos imprimir el JS de inactividad.
     ?>
     <script>
         (function() {
-            // 10 minutos de inactividad (600,000 milisegundos)
             const TIEMPO_LIMITE = 600000; 
             let timer;
-
             const reiniciarContador = () => {
                 clearTimeout(timer);
                 timer = setTimeout(() => {
                     window.location.href = 'logout.php?status=inactivity';
                 }, TIEMPO_LIMITE);
             };
-
-            // Eventos que reinician el tiempo
             window.onmousemove = reiniciarContador;
             window.onkeypress = reiniciarContador;
             window.onmousedown = reiniciarContador;
             window.onclick = reiniciarContador;
             window.onscroll = reiniciarContador;
-            
-            reiniciarContador(); // Iniciar el conteo al cargar
+            reiniciarContador();
         })();
     </script>
     <?php 

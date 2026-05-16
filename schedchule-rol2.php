@@ -32,17 +32,14 @@
       slotMinTime: '07:00:00',     // Hora de inicio
       slotMaxTime: '20:00:00',     // Hora de fin
       locale: 'es',                // Idioma español
-      
+
       // AQUÍ CARGAS TU BD
       events: 'get_evet.php', 
-      
+
       eventColor: '#1a5276', // El azul institucional que usas en tu avatar
     });
     calendar.render();
   });
 </script>
-
-
-   
 </body>
 </html>

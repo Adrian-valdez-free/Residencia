@@ -1,7 +1,7 @@
 <?php
-
-require "conn.php"; // Tu conexión PDO
-
+require "Authenticate.php";
+autorizarRoles(1, 2, 3);
+require "conn.php";
 $codigo = $_POST['codigo'];
 
 try {
@@ -19,30 +19,28 @@ try {
 
     // 2. Verificar si el estudiante está inscrito
     // Usamos prepare para mantener la seguridad de PDO
+    // 2. Verificar si el estudiante está inscrito (Simple: cualquier evento)
     $stmt_check = $conectar->prepare("SELECT id_estudiante FROM tabla_registros_eventos WHERE id_estudiante = ?");
     $stmt_check->execute([$id_usuario]);
 
-    // rowCount() en PDO reemplaza a num_rows
-    if ($stmt_check->rowCount() > 0) {
+    // REEMPLAZO DE rowCount(): Si fetch() devuelve datos, entramos al IF
+    if ($stmt_check->fetch()) {
 
-        // 3. Si el usuario existe se actualiza la asistencia
+        // 3. Si existe se actualiza la asistencia
         $stmt2 = $conectar->prepare("UPDATE tabla_registros_eventos SET asistencia = 1 WHERE id_estudiante = ?");
         $stmt2->execute([$id_usuario]);
         
-        echo "Asistencia registrada para el usuario con matricula $codigo";
-        echo "Asistencia registrada correctamente";
+        if (ob_get_length()) ob_clean(); // Limpieza para que no se cuele el script de inactividad
+        echo "✅ Asistencia registrada para matricula: $codigo";
 
     } else {
-        // En PDO no existe $conectar->error, así que dejamos el mensaje limpio
-        echo "Error el estudiante con matricula $codigo NO ESTA INSCRITO para este evento";
+        if (ob_get_length()) ob_clean();
+        echo "❌ Error: El estudiante $codigo NO está inscrito en ningún evento.";
     }
 
 } catch (PDOException $e) {
     // Si algo falla a nivel base de datos, lo capturamos aquí
     echo "Error en el sistema: " . $e->getMessage();
 }
-
-// Cerramos la conexión
 $conectar = null;
-
 ?>

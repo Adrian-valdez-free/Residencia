@@ -42,6 +42,8 @@ if ($timestamp_F <= $timestamp_I) {
     header("Location: edit_event.php");
 }
 
+$fecha_sql_I = date("Y-m-d H:i:s", $timestamp_I);
+$fecha_sql_F = date("Y-m-d H:i:s", $timestamp_F);
 
 try {
 $update = $conectar->prepare("UPDATE eventos SET 
@@ -60,8 +62,8 @@ $update->execute([
         ':rec'  => $recinto,
         ':pon'  => $ponente,
         ':cap'  => $capacidad,
-        ':hori' => $fecha_hora_I,
-        ':horf' => $fecha_hora_F,
+        ':hori' => $fecha_sql_I,
+        ':horf' => $fecha_sql_F,
         ':des'  => $descripcion,
         ':id'   => $id_evento
     ]);

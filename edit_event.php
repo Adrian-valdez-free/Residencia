@@ -1,5 +1,6 @@
 <?php
-session_start();
+include "Authenticate.php";
+autorizarRoles(1);
 require "conn.php";
 
 // 1. Verificar que venga un ID
@@ -91,11 +92,11 @@ include "sidebar.php";
     </div>
      <div class="form_group">
     <label for="">Fecha y hora de inicio</label>
-    <input type="datetime-local" id="inicio" name="Inicio" value ="<?php echo htmlspecialchars($evento['hora_inicio']); ?>">
+    <input type="datetime-local" id="inicio" name="Inicio" value ="<?php echo date('Y-m-d\TH:i', strtotime($evento['hora_inicio'])); ?>">
     </div>
      <div class="form_group">
     <label for="">Fecha y hora de finalización</label>
-    <input type="datetime-local" id="final" name="Final" value ="<?php echo htmlspecialchars($evento['hora_finalizar']); ?>">
+    <input type="datetime-local" id="final" name="Final" value ="<?php echo date('Y-m-d\TH:i', strtotime($evento['hora_finalizar'])); ?>">
     </div>
      </div>
     <div class="form_groupt">

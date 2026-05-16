@@ -1,4 +1,17 @@
+<?php 
+require "Authenticate.php";
+autorizarRoles(1);
+require "conn.php";
 
+try {
+    // Consulta para obtener todos los usuarios
+    $query = $conectar->query("SELECT * FROM users u INNER JOIN rol r on u.rol = r.id_rol ORDER BY id_user DESC");
+    $users = $query->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    $users = [];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,20 +32,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
   <title>Dashboard admin</title>
-  <?php 
-require "conn.php";
-require "Authenticate.php";
-autorizarRoles(1);
 
-try {
-    // Consulta para obtener todos los usuarios
-    $query = $conectar->query("SELECT * FROM users u INNER JOIN rol r on u.rol = r.id_rol ORDER BY id_user DESC");
-    $users = $query->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    error_log($e->getMessage());
-    $users = [];
-}
-?>
 </head>
 <body>
   

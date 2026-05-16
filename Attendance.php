@@ -1,4 +1,21 @@
+<?php 
+require "conn.php";
 
+try {
+    // Consulta para obtener todos los eventos
+    $query = $conectar->query("SELECT 
+        e.nombre_evento, 
+        s.name, 
+        re.fecha_registro, asistencia
+    FROM tabla_registros_eventos re
+    INNER JOIN eventos e ON re.id_evento = e.id_evento
+    INNER JOIN users s ON re.id_estudiante = s.id_user
+    ORDER BY re.fecha_registro DESC");
+    $attendece = $query->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error en la consulta: " . $e->getMessage());
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,25 +36,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
   <title>Dashboard admin</title>
-  <?php 
-require "conn.php";
 
-try {
-    // Consulta para obtener todos los eventos
-    $query = $conectar->query("SELECT 
-        e.nombre_evento, 
-        s.name, 
-        re.fecha_registro, asistencia
-    FROM tabla_registros_eventos re
-    INNER JOIN eventos e ON re.id_evento = e.id_evento
-    INNER JOIN users s ON re.id_estudiante = s.id_user
-    ORDER BY re.fecha_registro DESC");
-    $attendece = $query->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    error_log($e->getMessage());
-    $attendece = [];
-}
-?>
 </head>
 <body>
   

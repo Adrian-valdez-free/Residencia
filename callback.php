@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require 'vendor/autoload.php';
 require 'conn.php';
 require 'load_env.php';
@@ -24,86 +26,76 @@ try {
         'code' => $_GET['code']
     ]);
 
-    // Obtener datos del alumno
     $resourceOwner = $provider->getResourceOwner($token);
     $data = $resourceOwner->toArray();
-
-
-    $dsn = "mysql:host=$host;dbname=$basedatos;charset=$cotejamiento";
-    $pdo = new PDO($dsn, $usuario, $contrasena);
 
     $nombre = $data['name'];
     $email  = $data['upn'];
 
+    // Lógica de matrícula
     $ND = explode('@', $email)[0];
     $numeromat = substr($ND, 2);
 
+    // 1. Buscamos si el usuario ya existe (USANDO $conectar)
     $stmt = $conectar->prepare("SELECT * FROM users WHERE correo = :co");
     $stmt->execute([':co' => $email]);
     $user_data = $stmt->fetch();
 
     if($user_data){
-        if($user_data['rol'] != "1"){
+        // Usuario ya existe, actualizamos sesión y redirigimos
         $_SESSION['user_mail'] = $data['upn'];
         $_SESSION['user_name'] = $data['name'];
-        $_SESSION['user_id'] = $user_data['matricula'];
         $_SESSION['user_role'] = $user_data['rol'];
-            header("Location: dashboard.php");
-            session_start();
 
-        }else{
-        $_SESSION['user_data'] = $data;
-        $_SESSION['user_mail'] = $data['upn'];
-        $_SESSION['user_name'] = $data['name'];
-        $_SESSION['user_role'] = $user_data['rol'];
-        header("Location: dashboard-admin.php"); 
-        session_start();
-        exit;// Lo mandamos al nuevo archiv
+        if($user_data['rol'] == "1"){
+            $_SESSION['user_mail'] = $email;
+            $_SESSION['user_name'] = $nombre;
+            $_SESSION['user_role'] = $user_data['rol'];
+            header("Location: dashboard-admin.php");
+        } else {
+            $_SESSION['user_mail'] = $email;
+            $_SESSION['user_name'] = $nombre;
+            $_SESSION['user_role'] = $user_data['rol'];
+            $_SESSION['user_id'] = $user_data['matricula'];
+            header("Location: dashboard.php");
         }
+        exit; // <--- IMPORTANTE: Detener ejecución tras redirección
     }
 
-        if(ctype_digit(substr($numeromat, 0, 1)))
-        {
-        //Hay un numero dentro del correo en la tercera posición, entonces es alumno
-        $matricula_con_dominio = substr($email, 1);
-        $partes = explode('@', $matricula_con_dominio);
-        $matricula = $partes[0];
+    // 2. Si no existe, determinamos el rol para el registro nuevo
+    if(ctype_digit(substr($numeromat, 0, 1))) {
+        $matricula = explode('@', substr($email, 1))[0];
         $rol = 2;
-        $_SESSION['user_mail'] = $data['upn'];
-        $_SESSION['user_name'] = $data['name'];
-        $_SESSION['user_id'] = $matricula;
-        $_SESSION['user_role'] = $rol;
-        session_start();
-    }else{
-        //el correo no tiene un numero en la tercera posición, 
+    } else {
         $rol = 1;
         $matricula = "";
-        $_SESSION['user_data'] = $data;
-        $_SESSION['user_mail'] = $data['upn'];
-        $_SESSION['user_name'] = $data['name'];
-        $_SESSION['user_role'] = $rol;
-        session_start();
     }
 
-    $sql = "INSERT INTO users (name, correo, matricula, rol) 
-            VALUES (:nom, :em, :mat, :rol)
-            ON DUPLICATE KEY UPDATE correo= :em ";
+    // 3. INSERTAR NUEVO USUARIO (Ajustado para ser compatible con SQL Server)
+    // Nota: Si usas MySQL, puedes dejar tu ON DUPLICATE KEY. 
+    // Si usas Azure SQL, este INSERT simple funcionará porque ya validamos arriba que no existe.
+    $sql = "INSERT INTO users (name, correo, matricula, rol) VALUES (:nom, :em, :mat, :rol)";
 
-    $stmt = $pdo->prepare($sql);
+    $stmt = $conectar->prepare($sql); // <--- CAMBIADO DE $pdo A $conectar
     $stmt->execute([
         ':nom' => $nombre,
         ':em'  => $email,
         ':mat' => $matricula,
-        ':rol' => $rol
+        ':rol' => $rol,
     ]);
-    if($rol != 1){
-    header("Location: dashboard.php");
-    session_start(); // Lo mandamos al nuevo archivo
-    exit;
-    }else{
-         header("Location: dashboard-admin.php"); 
-         session_start();// Lo mandamos al nuevo archivo
+
+    // Configurar sesión para el nuevo registro
+    $_SESSION['user_mail'] = $email;
+    $_SESSION['user_name'] = $nombre;
+    $_SESSION['user_id'] = $matricula;
+    $_SESSION['user_role'] = $rol;
+
+    if($rol == 1){
+        header("Location: dashboard-admin.php");
+    } else {
+        header("Location: dashboard.php");
     }
+    exit;
     
 } catch (Exception $e) {
     exit('Error: ' . $e->getMessage());

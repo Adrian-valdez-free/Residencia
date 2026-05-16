@@ -1,4 +1,17 @@
+<?php 
+require "Authenticate.php";
+require "conn.php";
+autorizarRoles(1);
 
+try {
+    // Consulta para obtener todos los eventos
+    $query = $conectar->query("SELECT * FROM eventos INNER JOIN recinto r ON recintos_id = id_recinto ORDER BY hora_inicio DESC");
+    $eventos = $query->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    $eventos = [];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,20 +32,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
   <title>Dashboard admin</title>
-  <?php 
-require "conn.php";
-require "Authenticate.php";
-autorizarRoles(1);
-
-try {
-    // Consulta para obtener todos los eventos
-    $query = $conectar->query("SELECT * FROM eventos INNER JOIN recinto r ON recintos_id = id_recinto ORDER BY hora_inicio DESC");
-    $eventos = $query->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    error_log($e->getMessage());
-    $eventos = [];
-}
-?>
+ 
 </head>
 <body>
   

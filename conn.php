@@ -5,7 +5,7 @@ $host      = getenv("DB_HOST");
 $usuario   = getenv("DB_USER");
 $contrasena = getenv("DB_PASS");
 $basedatos  = getenv("DB_NAME");
-$cotejamiento = "utf8mb4";
+
 
 try {
     $conectar = new PDO(

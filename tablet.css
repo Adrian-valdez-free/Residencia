@@ -8,8 +8,54 @@
 nav img{
   width: 20%;
 }
+.logo img{
+  width: 80%;
+}
+.sidebar {
+  height: 100%;
+  width: 17%;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto; /* ACTIVA EL SCROLL */
+  overflow-x: hidden;
+  align-items:flex-start;
+}
+
+.sidebar a{
+  width: auto;
+  font-size: 14px;
+  padding: 0px 0px;
+}
+.sidebar i{
+  font-size: 14px;
+  margin-right: 5px;
+}
+.menu {
+  width: 82%;
+  height: 100%;
+  background-color: #ffff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow-y: auto; /* ACTIVA EL SCROLL */
+}
   .options{
   gap: 30px;
+}
+.midle {
+  width: 100%;
+  align-items: center;
+}
+.form_group {
+  width: 100%;
+  align-items: center;
+}
+input, select {
+  width: 100%;
 }
 #calendar-container{
   width: 100%;

@@ -1,0 +1,39 @@
+@media (min-width: 481px) and (max-width: 1024px){
+  .box{
+  width: 80%;
+}
+  nav{
+  justify-content: space-between;
+}
+nav img{
+  width: 20%;
+}
+  .options{
+  gap: 30px;
+}
+#calendar-container{
+  width: 100%;
+}
+#calendar {
+    width: 90%;
+    margin:10px;
+    background: rgba(255, 255, 255, 0.9); 
+    padding:10px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.admin-container {
+    justify-content: center;
+    padding-top: 50px;
+    align-content: center;
+    padding: 20px;
+    background-color: #f4f7f6; /* Color de fondo suave */
+    overflow-y: auto;
+}
+    #reader{
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+}

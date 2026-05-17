@@ -1,4 +1,4 @@
-<nav class = "">
+<nav class = "destopk-nav">
     <img src="assets/Logo TecNM.png" alt="logo">
     <div class="options">
       <a href="dashboard.php">Inicio<i class="fa-solid fa-house"></i></a>
@@ -11,4 +11,9 @@
     <div class="profile">
       <a href="perfil.php">perfil<i class="fa-solid fa-user"></i></a>
     </div>
+    
 </nav>
+<div class="resposive-boton">
+  <img src="assets/Logo TecNM.png" alt="logo">
+      <a href="#" id ="boton_menu"><i class="fa-solid fa-bars"></i></a>
+</div>

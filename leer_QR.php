@@ -15,6 +15,7 @@ autorizarRoles(1, 3);
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <?php include 'navigation.php'; ?>
@@ -33,6 +34,9 @@ autorizarRoles(1, 3);
 <script>
 function onScanSuccess(decodedText) {
 
+    //Detiene el scaneo por un momento
+    html5QrcodeScanner.pause(true);
+
     document.getElementById("resultado").innerHTML = "QR detectado: " + decodedText;
 
     // Enviar el dato a PHP
@@ -45,11 +49,33 @@ function onScanSuccess(decodedText) {
     })
     .then(response => response.text())
     .then(data => {
-        document.getElementById("resultado").innerHTML += "<br>" + data;
-    });
-
-    // Detener cámara después de leer
-    //html5QrcodeScanner.clear();
+        if (data.includes("✅")) {
+            // ALERTA DE ÉXITO
+            Swal.fire({
+                icon: 'success',
+                title: '¡Asistencia Registrada!',
+                text: data,
+                timer: 2500, // Se cierra sola en 2.5 segundos
+                showConfirmButton: false
+            }).then(() => {
+                // Reanudamos la cámara automáticamente al cerrarse la alerta
+                html5QrcodeScanner.resume();
+            });
+        } else {
+            // ALERTA DE ERROR
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de Registro',
+                text: data,
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#002b70' // Tu azul institucional
+            }).then(() => {
+                // Reanudamos la cámara al dar clic en aceptar
+                html5QrcodeScanner.resume();
+            });
+        }
+    })
+    
 }
 
 function onScanFailure(error) {}

@@ -152,10 +152,10 @@ include "navigation.php";
         <li><a class ="btn_ancla" href="dashboard.php">Inicio<i class="fa-solid fa-house"></i></a></li>
         <li><a class ="btn_ancla" href="inscribirse_actividad.php">Inscripciones<i class="fa-solid fa-list-check"></i></a></li>
         <li><a class ="btn_ancla" href="schedchule-rol2.php">Horario<i class="fa-regular fa-calendar"></i></a></li>
-        <li><?php if ((int)$_SESSION['user_role'] === 3): ?>
-      <a class ="btn_ancla" href="leer_QR.php">Asistencia<i class="fa-solid fa-clipboard-user"></i></a>
-      <?php endif; ?></li>
-        <li><a class ="btn_ancla" href="perfil.php">perfil<i class="fa-solid fa-user"></i></a></li>
+        <?php if ((int)$_SESSION['user_role'] === 3): ?><li>
+      <a class ="btn_ancla" href="leer_QR.php">Asistencia<i class="fa-solid fa-clipboard-user"></i></a></li>
+      <?php endif; ?>
+        <li><a class ="btn_ancla" href="perfil.php">perfil / QR<i class="fa-solid fa-user"></i></a></li>
         </ul>
         <div class="boton_cerrar">
         <a href="#" class="btn_ancla"><i class="fa-solid fa-xmark"></i></a>

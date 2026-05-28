@@ -185,7 +185,7 @@ $(document).ready(function() {
         "buttons": [
             {
                 extend: 'pdfHtml5',
-                text: '<i class="fa-solid fa-file-pdf"></i> Reportar lo visible',
+                text: '<i class="fa-solid fa-file-pdf"></i> Imprimir tabla',
                 className: 'btn-exportar-pdf', // Clase para tu CSS
                 title: 'Asistencia - Sistema de Control ITM',
                 exportOptions: {

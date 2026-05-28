@@ -35,7 +35,7 @@ autorizarRoles(1, 3);
 function onScanSuccess(decodedText) {
 
     //Detiene el scaneo por un momento
-    html5QrcodeScanner.pause(true);
+    html5QrcodeScanner.html5Qrcode.pause(true);
 
     document.getElementById("resultado").innerHTML = "QR detectado: " + decodedText;
 
@@ -55,11 +55,11 @@ function onScanSuccess(decodedText) {
                 icon: 'success',
                 title: '¡Asistencia Registrada!',
                 text: data,
-                timer: 2500, // Se cierra sola en 2.5 segundos
+                timer: 5000, // Se cierra sola en 2.5 segundos
                 showConfirmButton: false
             }).then(() => {
                 // Reanudamos la cámara automáticamente al cerrarse la alerta
-                html5QrcodeScanner.resume();
+                html5QrcodeScanner.html5Qrcode.resume();
             });
         } else {
             // ALERTA DE ERROR
@@ -67,42 +67,44 @@ function onScanSuccess(decodedText) {
                 icon: 'error',
                 title: 'Error de Registro',
                 text: data,
+                timer: 5000,
                 confirmButtonText: 'Entendido',
                 confirmButtonColor: '#002b70' // Tu azul institucional
             }).then(() => {
                 // Reanudamos la cámara al dar clic en aceptar
-                html5QrcodeScanner.resume();
+                html5QrcodeScanner.html5Qrcode.resume();
             });
         }
     })
-    
+    .catch(error => {
+        console.error("Error:", error);
+        html5QrcodeScanner.html5Qrcode.resume();
+    });
 }
 
 function onScanFailure(error) {}
 
 let html5QrcodeScanner = new Html5QrcodeScanner(
     "reader",
-    { fps: 10, qrbox: 400 }
+    { fps: 10, qrbox: 300 }
 );
 
 html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 </script>
-<nav class="nav-mobile" id="menu">
-    <ul>
-        <li><a class="btn_ancla" href="dashboard.php">Inicio<i class="fa-solid fa-house"></i></a></li>
-        <li><a class="btn_ancla" href="inscribirse_actividad.php">Inscripciones<i class="fa-solid fa-list-check"></i></a></li>
-        <li><a class="btn_ancla" href="schedchule-rol2.php">Horario<i class="fa-regular fa-calendar"></i></a></li>
-        <li>
-            <?php if ((int)$_SESSION['user_role'] === 3): ?>
-                <a class="btn_ancla" href="leer_QR.php">Asistencia<i class="fa-solid fa-clipboard-user"></i></a>
-            <?php endif; ?>
-        </li>
-        <li><a class="btn_ancla" href="perfil.php">perfil<i class="fa-solid fa-user"></i></a></li>
-    </ul>
-    <div class="boton_cerrar">
+<nav class ="nav-mobile" id="menu">
+        <ul>
+        <li><a class ="btn_ancla" href="dashboard.php">Inicio<i class="fa-solid fa-house"></i></a></li>
+        <li><a class ="btn_ancla" href="inscribirse_actividad.php">Inscripciones<i class="fa-solid fa-list-check"></i></a></li>
+        <li><a class ="btn_ancla" href="schedchule-rol2.php">Horario<i class="fa-regular fa-calendar"></i></a></li>
+        <?php if ((int)$_SESSION['user_role'] === 3): ?><li>
+      <a class ="btn_ancla" href="leer_QR.php">Asistencia<i class="fa-solid fa-clipboard-user"></i></a></li>
+      <?php endif; ?>
+        <li><a class ="btn_ancla" href="perfil.php">perfil / QR<i class="fa-solid fa-user"></i></a></li>
+        </ul>
+        <div class="boton_cerrar">
         <a href="#" class="btn_ancla"><i class="fa-solid fa-xmark"></i></a>
     </div>
-</nav>
+      </nav>
 
 <script>
     $('#boton_menu').click(function(e){

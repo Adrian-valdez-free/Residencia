@@ -1,6 +1,6 @@
 <?php
-require "Authenticate.php";
-autorizarRoles(1, 2, 3);
+// require "Authenticate.php";
+// autorizarRoles(1, 2, 3);
 require "conn.php";
 $codigo = $_POST['codigo'];
 

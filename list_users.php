@@ -58,34 +58,64 @@ include "sidebar.php";
     </div>
 
     <table class="tabla-eventos" id="tablaEventos">
-        <thead>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre usuario</th>
+            <th>Rol</th>
+            <th>Correo</th>
+            <th>Matricula</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+            <?php foreach($users as $user): ?>
             <tr>
-                <th>ID</th>
-                <th>Nombre usuario</th>
-                <th>Rol</th>
-                <th>Correo</th>
-                <th>Matricula</th>
-                <th>Acciones</th>
+                <td><?php echo $user['id_user']; ?></td>
+                <td><?php echo $user['name']; ?></td>
+                <td><?php echo $user['Nombre']; ?></td>
+                <td><?php echo $user['correo']; ?></td>
+                <td><?php echo $user['matricula']; ?></td>
+                <td class="acciones">
+                    <?php if ((int)$user['id_rol'] === 1): // Cambia 'id_rol' por el nombre de tu columna numérica ?>
+    
+    <span class="btn-edit" 
+          onclick="Swal.fire({
+              icon: 'warning',
+              title: 'Acción protegida',
+              text: 'No se puede modificar al administrador principal del sistema.',
+              confirmButtonColor: '#002b70',
+              confirmButtonText: 'Entendido'
+          })">
+        <i class="fa-solid fa-pen-to-square"></i>
+    </span>
+
+    <span class="btn-delete" 
+          onclick="Swal.fire({
+              icon: 'error',
+              title: 'Acción denegada',
+              text: 'Por motivos de seguridad, no es posible eliminar al administrador principal.',
+              confirmButtonColor: '#002b70',
+              confirmButtonText: 'Entendido'
+          })">
+        <i class="fa-solid fa-trash"></i>
+    </span>
+
+<?php else: ?>
+
+                        <a class="btn-edit" href="edit_user.php?id=<?php echo $user['id_user']; ?>">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a class="btn-delete" href="#" onclick="confirmarBorrado(event, 'delete_user.php?id=<?php echo $user['id_user']; ?>')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+
+                    <?php endif; ?>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-                <?php foreach($users as $user): ?>
-                <tr>
-                    <td><?php echo $user['id_user']; ?></td>
-                    <td><?php echo $user['name']; ?></td>
-                    <td><?php echo $user['Nombre']; ?></td>
-                    <td><?php echo $user['correo']; ?></td>
-                    <td><?php echo $user['matricula']; ?></td>
-                    <td class="acciones">
-                        <a class="btn-edit" href="edit_user.php?id=<?php echo $user['id_user']; ?>"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a class="btn-delete" href="#"
-                        onclick="confirmarBorrado(event, 'delete_user.php?id=<?php echo $user['id_user']; ?>')"><i class="fa-solid fa-trash"></i>
-                    </a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-        </tbody>
-    </table>
+            <?php endforeach; ?>
+    </tbody>
+</table>
 </div>
 </div>
 </div>
@@ -178,19 +208,19 @@ $(document).ready(function() {
         // 't' la tabla, 'i' la info y 'p' la paginación.
         "dom": '<"top-table"Bf>rtip', 
         "buttons": [
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="fa-solid fa-file-pdf"></i> Generar Reporte',
-                className: 'btn-exportar-pdf', // Clase para tu CSS
-                title: 'Listado de usuarios en el sistema',
-                exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5] // EXCLUIMOS la columna 6 (Acciones/Botones)
-                },
-                customize: function (doc) {
-                    // Esto centra la tabla en el PDF generado
-                    doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-                }
-            }
+            // {
+            //     extend: 'pdfHtml5',
+            //     text: '<i class="fa-solid fa-file-pdf"></i> Generar Reporte',
+            //     className: 'btn-exportar-pdf', // Clase para tu CSS
+            //     title: 'Listado de usuarios en el sistema',
+            //     exportOptions: {
+            //         columns: [0, 1, 2, 3, 4, 5] // EXCLUIMOS la columna 6 (Acciones/Botones)
+            //     },
+            //     customize: function (doc) {
+            //         // Esto centra la tabla en el PDF generado
+            //         doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+            //     }
+            // }
         ],
         "lengthChange": false,
         "pageLength": 5,

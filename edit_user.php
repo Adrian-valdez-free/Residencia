@@ -74,15 +74,18 @@ include "sidebar.php";
     <input type="text" name="Name" value = "<?php echo htmlspecialchars($user['name']); ?>">
     </div>
   
-     <div class="form_group">
-    <label for="recinto">Elige el rol</label>
+<div class="form_group">
+    <label for="Rol-id">Elige el rol</label>
     <select name="Rol" id="Rol-id">
         <option value="">-- Seleccione un rol --</option>
         <?php foreach ($todos_los_roles as $rol): ?>
+            
+            <?php if ((int)$rol['id_rol'] === 1) continue; ?>
+
             <option value="<?php echo $rol['id_rol']; ?>" 
                 <?php 
-                // Si el ID del recinto en el bucle es igual al que ya tiene el evento, ponlo como 'selected'
-                echo ($rol['id_rol'] == $user['rol']) ? 'selected' : ''; 
+                // Compara el ID del rol de la lista con el ID del rol que ya tiene asignado el usuario
+                echo ($rol['id_rol'] == $user['id_rol']) ? 'selected' : ''; 
                 ?>>
                 <?php echo htmlspecialchars($rol['Nombre']); ?>
             </option>
